@@ -1,0 +1,6 @@
+module Pods_RideyUser {
+  umbrella header "Pods-RideyUser-umbrella.h"
+
+  export *
+  module * { export * }
+}

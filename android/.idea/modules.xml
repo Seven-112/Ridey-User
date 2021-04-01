@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RideyUser.iml" filepath="$PROJECT_DIR$/.idea/modules/RideyUser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/RideyUser.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/RideyUser.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/779728734/RideyUser.react-native-geolocation-service.iml" filepath="$PROJECT_DIR$/.idea/modules/779728734/RideyUser.react-native-geolocation-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-331422883/RideyUser.react-native-maps.iml" filepath="$PROJECT_DIR$/.idea/modules/-331422883/RideyUser.react-native-maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1934740492/RideyUser.react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/-1934740492/RideyUser.react-native-permissions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1540210726/RideyUser.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/1540210726/RideyUser.react-native-reanimated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1071046496/RideyUser.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/1071046496/RideyUser.react-native-vector-icons.iml" />
+    </modules>
+  </component>
+</project>

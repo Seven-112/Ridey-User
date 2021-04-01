@@ -1,0 +1,4 @@
+#Thu Feb 11 21:49:37 PKT 2021
+base.0=/Users/apple/Desktop/Projects/Ridey-UserSide/RideyUser/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
