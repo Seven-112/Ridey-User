@@ -1,20 +1,30 @@
 Arguments: 
-  /usr/local/Cellar/node@12/12.20.0/bin/node /Users/apple/.yarn/releases/yarn-1.22.10.cjs ios
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js
 
 PATH: 
-  /Users/apple/Library/Android/sdk:/Users/apple/.yarn/bin:/Users/apple/.config/yarn/global/node_modules/.bin:/usr/local/opt/node@12/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/apple/Library/Android/sdk:/Users/apple/.yarn/bin:/Users/apple/.config/yarn/global/node_modules/.bin:/usr/local/opt/node@12/bin:/Users/apple/Developer/flutter/bin:/Users/apple/Library/Android/sdk/emulator:/Users/apple/Library/Android/sdk/tools:/Users/apple/Library/Android/sdk/tools/bin:/Users/apple/Library/Android/sdk/platform-tools:/Users/apple/Developer/flutter/bin:/Users/apple/Library/Android/sdk/emulator:/Users/apple/Library/Android/sdk/tools:/Users/apple/Library/Android/sdk/tools/bin:/Users/apple/Library/Android/sdk/platform-tools
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/mac/Library/Android/sdk/emulator:/Users/mac/Library/Android/sdk/tools:/Users/mac/Library/Android/sdk/tools/bin:/Users/mac/Library/Android/sdk/platform-tools:/Users/mac/Library/Android/sdk/emulator:/Users/mac/Library/Android/sdk/tools:/Users/mac/Library/Android/sdk/tools/bin:/Users/mac/Library/Android/sdk/platform-tools
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  12.20.0
+  14.16.0
 
 Platform: 
   darwin x64
 
 Trace: 
-  Error: ENOSPC: no space left on device, write
+  Error: https://pkgs.dev.azure.com/yolobe/Yolobe/_packaging/registry/npm/registry/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz: Request failed "401 Unauthorized"
+      at ResponseError.ExtendableBuiltin (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:696:66)
+      at new ResponseError (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:802:124)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:67058:16)
+      at Request.emit (events.js:315:20)
+      at Request.module.exports.Request.onRequestResponse (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:141626:10)
+      at ClientRequest.emit (events.js:315:20)
+      at HTTPParser.parserOnIncomingClient (_http_client.js:641:27)
+      at HTTPParser.parserOnHeadersComplete (_http_common.js:126:17)
+      at TLSSocket.socketOnData (_http_client.js:509:22)
+      at TLSSocket.emit (events.js:315:20)
 
 npm manifest: 
   {
