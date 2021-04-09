@@ -20,7 +20,7 @@ const renderRequestOptions = (item, time, distance, setSelected) => {
     const selectedData = {
         time: `${newTime} ${timeSlot} `,
         distance: distance,
-        item: item,
+        item: {item},
         fare: data
     }
     return (
@@ -59,7 +59,7 @@ const handleCreateRequest = (actions,navigation,user,requestData) => {
         source:requestData.address.pickup,
         destination:requestData.address.destination,
         distance:requestData.selected.distance,
-        status:'InProgress'
+        status:'Pending'
     }
     const nearByData = {
        latitude:31.4515431,
@@ -70,7 +70,7 @@ const handleCreateRequest = (actions,navigation,user,requestData) => {
     actions.request
     .createRequest(data)
     .then(()=>actions.request.actionGetNearByDrivers(nearByData))
-    .then(()=>navigation.navigate(RouteNames.NearBy, { requestData: requestData }))
+    .then(()=>navigation.navigate(RouteNames.NearBy, { requestData: data }))
     .catch((e) => console.log(e))
     .then(() =>{});
 

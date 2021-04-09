@@ -11,6 +11,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import styles from "./NearBy.styles";
 import RouteNames from "../../Navigation/routeNames";
 import { socket } from "../../Store/store";
+import Constants from '../../Constants/appConstants/Global';
 
 const handleMakeConnection = (
   actions,
@@ -20,7 +21,9 @@ const handleMakeConnection = (
   userData
 ) => {
   const data = {
-    requestData: requestData,
+    requestData,
+    driverData,
+    userData
   };
   console.log("isnide connection make call", data);
   socket.emit("pendingRequest", data);
@@ -89,7 +92,19 @@ const NearBy = ({
   useEffect(() => {
     const data = {
       requestData: requestData,
+      userData:user,
+      driverData:driverData
+
+      
     };
+    // const wsSocket = new WebSocket(Constants.URL,'echo-protocol');
+    // wsSocket.send(data)
+    // wsSocket.addEventListener('AcceptRequestUser',(incomingData)=>{
+    //  navigation.navigate(RouteNames.Tracking, {
+    //     requestData: requestData,
+    //     tripData: incomingData,
+    //   });
+    // })
     socket.emit("pendingRequest", data);
     socket.on("AcceptRequestUser", (tripData) => {
       console.log("accept", tripData);
@@ -126,8 +141,15 @@ const NearBy = ({
           requestData: requestData,
           tripData: tripData,
         });
+        socket.join(tripData.roomId);
+        const data={
+          tripData:tripData,
+          user:user,
+          roomId:tripData.roomId
+        }
+        socket.emit('roomConnection',data);
       });
-   
+ 
   });
 
   return (
