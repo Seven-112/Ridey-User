@@ -141,7 +141,6 @@ const NearBy = ({
           requestData: requestData,
           tripData: tripData,
         });
-        socket.join(tripData.roomId);
         const data={
           tripData:tripData,
           user:user,
