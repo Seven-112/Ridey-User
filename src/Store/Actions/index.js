@@ -1,6 +1,6 @@
 import { actionlogin, clearError, actionSignUp, actionLogout,actionFileUpload } from './Auth';
 import { actionCreateRequest, actionGetAllRequest, actionGetUserRequest, actionGetNearByDriversRequest, clearRequestError } from './Request';
-import { actionCreateTrip,actionGetUserTrip,clearTripError,actionCompleteTrip } from './Trip';
+import { actionCreateTrip,actionGetUserTrip,clearTripError,actionCompleteTrip,actionGetCurrentTrip } from './Trip';
 import {actionAddCard,actionDeleteCard,actionGetCard,ActionClearPaymentError,actionMakeTransaction,actionGetTransaction} from './Payment';
 export {
     actionAddCard,
@@ -17,6 +17,7 @@ export {
     actionGetAllRequest,
     actionGetUserRequest,
     actionCreateTrip,
+    actionGetCurrentTrip,
     actionCompleteTrip,
     actionGetUserTrip,
     actionGetNearByDriversRequest,

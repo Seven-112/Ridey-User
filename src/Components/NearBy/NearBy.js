@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions
 } from "react-native";
 import carIcon from "../../assets/images/cars/top-Comfort.png";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -12,6 +13,11 @@ import styles from "./NearBy.styles";
 import RouteNames from "../../Navigation/routeNames";
 import { socket } from "../../Store/store";
 import Constants from '../../Constants/appConstants/Global';
+
+const screen = Dimensions.get('window');
+const AspectRatio = screen.width / screen.height;
+const latitudeDelta = 0.9222;
+const longitudeDelta = longitudeDelta * AspectRatio;
 
 const handleMakeConnection = (
   actions,
@@ -25,16 +31,26 @@ const handleMakeConnection = (
     driverData,
     userData
   };
+  const reqObj = {
+    userId:userData.userId
+  }
+  actions.request
+  .actionGetUserRequest(reqObj)
+  .then(() => {
+    socket.emit("pendingRequest", data);
+  })
+  .catch((e) => console.log(e))
+  .then(() => {});
+  
   console.log("isnide connection make call", data);
-  socket.emit("pendingRequest", data);
 
-  socket.on("AcceptRequestUser", (tripData) => {
-    console.log("accept", tripData);
-    navigation.navigate(RouteNames.Tracking, {
-      requestData: requestData,
-      tripData: tripData,
-    });
-  });
+
+  // socket.on("AcceptRequestUser", (tripData) => {
+  //   console.log("accept", tripData);
+  //   navigation.navigate(RouteNames.Tracking,{
+  //     tripData:tripData
+  //   });
+  // });
 
   // const tripData =
   // {
@@ -97,22 +113,11 @@ const NearBy = ({
 
       
     };
-    // const wsSocket = new WebSocket(Constants.URL,'echo-protocol');
-    // wsSocket.send(data)
-    // wsSocket.addEventListener('AcceptRequestUser',(incomingData)=>{
-    //  navigation.navigate(RouteNames.Tracking, {
-    //     requestData: requestData,
-    //     tripData: incomingData,
-    //   });
-    // })
-    socket.emit("pendingRequest", data);
-    socket.on("AcceptRequestUser", (tripData) => {
-      console.log("accept", tripData);
-      navigation.navigate(RouteNames.Tracking, {
-        requestData: requestData,
-        tripData: tripData,
-      });
-    });
+    // socket.emit("pendingRequest", data);
+    // socket.on("AcceptRequestUser", (tripData) => {
+    //   console.log("accept", tripData);
+    //   navigation.navigate(RouteNames.Tracking);
+    // });
     if (driverData.length > 0) {
       setTimeout(() => {
         handler = handleMakeConnection(
@@ -130,23 +135,23 @@ const NearBy = ({
   useEffect(() => {
       socket.on("AcceptRequest", (tripData) => {
         console.log("accept", tripData);
-        navigation.navigate(RouteNames.Tracking, {
-          requestData: requestData,
-          tripData: tripData,
-        });
+        // navigation.navigate(RouteNames.Tracking, {
+        //   requestData: requestData,
+        //   tripData: tripData,
+        // });
       });
       socket.on("AcceptRequestUser", (tripData) => {
         console.log("accept", tripData);
-        navigation.navigate(RouteNames.Tracking, {
-          requestData: requestData,
-          tripData: tripData,
-        });
         const data={
           tripData:tripData,
           user:user,
           roomId:tripData.roomId
         }
         socket.emit('roomConnection',data);
+        navigation.navigate(RouteNames.Tracking,{
+          tripData:tripData
+        });
+      
       });
  
   });
@@ -162,6 +167,7 @@ const NearBy = ({
         followsUserLocation={true}
         style={styles.map}
         initialRegion={region}
+        region={region}
       >
         {driverData.map((item, index) => (
           <Marker

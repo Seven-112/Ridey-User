@@ -27,14 +27,14 @@ export default (state = initialState, action) => {
         case GET_REQUEST:
             return {
                 ...state,
-                requestData: action.requestData,
+                requestData: action.data,
                 error: action.error,
                 success: action.success
             }
         case GET_ALL_REQUEST:
             return {
                 ...state,
-                requestData: action.requestData,
+                requestData: action.data,
                 error: action.error,
                 success: action.success
             }

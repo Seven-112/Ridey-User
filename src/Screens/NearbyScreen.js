@@ -10,6 +10,7 @@ const NearByScreen = (props) => {
     const dispatch = useDispatch();
     const actionGetNearByDrivers = (data) => dispatch(STORE.actions.actionGetNearByDriversRequest(data));
     const actionCreateTrip = (data)=>dispatch(STORE.actions.actionCreateTrip(data));
+    const actionGetUserRequest = (data)=>dispatch(STORE.actions.actionGetUserRequest(data));
     const clearRequestError = () => dispatch(STORE.actions.clearRequestError());
     const tripData = useSelector(userSelectors.getTripData);
     const requestError = useSelector(userSelectors.getRequestErrors);
@@ -22,6 +23,7 @@ const NearByScreen = (props) => {
         actions: {
             request: {
                 actionGetNearByDrivers,
+                actionGetUserRequest,
                 clearRequestError,
                 actionCreateTrip
             }
