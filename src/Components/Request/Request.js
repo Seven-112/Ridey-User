@@ -93,8 +93,8 @@ const handleCreateRequest = (
     destination: requestData.address.destination,
     distance: requestData.selected.distance,
     status: "Pending",
-    sourcelocation,
-    destinatonlocation,
+    sourcelocation:sourcelocation,
+    destinatonlocation:destinatonlocation,
   };
   const nearByData = {
     latitude: 31.4515431,
@@ -164,8 +164,6 @@ const Request = ({
       <MapView
         pitchEnabled={true}
         ref={mapRef}
-        showsCompass={true}
-        showsUserLocation={true}
         provider={PROVIDER_GOOGLE}
         followsUserLocation={true}
         style={styles.map}
@@ -178,17 +176,20 @@ const Request = ({
           }}
           title="source Location"
           tracksViewChanges={false}
-          icon={MapPin}
-        ></Marker>
+         
+        >
+          {/* <Image source={MapPin} style={{width:40,height:40}}/> */}
+        </Marker>
         <Marker
           coordinate={{
             latitude: destinatonlocation.latitude,
             longitude: destinatonlocation.longitude,
           }}
           title="destination Location"
-          icon={MapPin}
           tracksViewChanges={false}
-        ></Marker>
+        >
+         {/* <Image source={MapPin} style={{width:40,height:40}}/> */}
+        </Marker>
         <MapViewDirections
           origin={sourcelocation}
           destination={destinatonlocation}

@@ -7,9 +7,16 @@ import STORE from '../Store'
 
 
 const RatingScreen = (props) => {
-   
+    const requestId = {};
+    const tripData ={
+        driver:{
+            name:'usman'
+        },
+        vehicle:{}
+    };
+    // const requestId = props.route.params.requestId;
+    // const tripData = props.route.params.tripData;
     const dispatch = useDispatch();
-    const tripData =  useSelector(userSelectors.getTripData);
     const completeTrip = (data) => dispatch(STORE.actions.actionCompleteTrip(data));
     const clearTripError = () => dispatch(STORE.actions.clearTripError())
     const tripError = useSelector(userSelectors.getTripErrors);
@@ -26,6 +33,7 @@ const RatingScreen = (props) => {
         tripError,
         tripStatus,
         tripData,
+        requestId,
         navigation: props.navigation
     }
 

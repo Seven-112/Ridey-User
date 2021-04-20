@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     contentContainer: {
+        marginTop:10,
         flex: 1,
-        marginTop: '-24%'
     },
     divider: {
         height: 1,
@@ -19,13 +19,14 @@ const styles = StyleSheet.create({
     headerContainer: {
         height: '20%',
         backgroundColor: COLORS.SECONDARY_ORANGE,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     headerText: {
-        fontSize: 25,
+        fontSize: 30,
         marginHorizontal: 20,
         fontWeight: '700',
-        color: COLORS.SECONDARY_BLACK
+        color: COLORS.SECONDARY_BLACK,
+        marginTop:50
     },
     itemContainer: {
         height: 150,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderColor: COLORS.TRANSPARENT,
         shadowColor: COLORS.BLACK,
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: { width: 0.5, height: 4 },
         shadowOpacity: 0.05,
         shadowRadius: 0,
         elevation: 3,

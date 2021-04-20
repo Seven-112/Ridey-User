@@ -110,8 +110,6 @@ const NearBy = ({
       requestData: requestData,
       userData:user,
       driverData:driverData
-
-      
     };
     // socket.emit("pendingRequest", data);
     // socket.on("AcceptRequestUser", (tripData) => {
@@ -133,6 +131,18 @@ const NearBy = ({
   }, []);
 
   useEffect(() => {
+    mapRef.current.animateCamera(
+      {
+        center: {
+          latitude: region.latitude,
+          longitude: region.longitude,
+        },
+        zoom: 17,
+      },
+      
+      { duration: 1000,
+      }
+    );
       socket.on("AcceptRequest", (tripData) => {
         console.log("accept", tripData);
         // navigation.navigate(RouteNames.Tracking, {
@@ -153,7 +163,12 @@ const NearBy = ({
         });
       
       });
- 
+      return ()=>{
+        socket.off('AcceptRequestUser');
+        socket.off('roomConnection');
+        socket.off('AcceptRequest');
+        socket.off('pendingRequest');
+      }
   });
 
   return (
@@ -161,10 +176,7 @@ const NearBy = ({
       <MapView
         pitchEnabled={true}
         ref={mapRef}
-        showsCompass={true}
-        showsUserLocation={true}
         provider={PROVIDER_GOOGLE}
-        followsUserLocation={true}
         style={styles.map}
         initialRegion={region}
         region={region}

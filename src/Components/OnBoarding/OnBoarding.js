@@ -11,8 +11,8 @@ const renderItem = ({ item, index }, width,navigaton) => {
 
     return (
         <View style={[styles.onboardingContainer, { width }]} >
-            <View style={{ width: width - 100 }}>
-                <Image style={[styles.onboardingImage, { width: width - 100, resizeMode: 'contain' }]} source={item.image} />
+            <View style={{ width: width - 60 }}>
+                <Image style={[styles.onboardingImage, { width: width - 60, resizeMode: 'contain' }]} source={item.image} />
             </View>
             <View style={styles.onboardingtextContainer}>
                 <Text style={styles.headingText}>{item.name}</Text>

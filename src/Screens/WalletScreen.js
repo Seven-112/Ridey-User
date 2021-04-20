@@ -31,4 +31,4 @@ const WalletScreen = (props) => {
     return <Wallet {...enhancedProps} />
 }
 
-export default WalletScreen
+export default WalletScreen;

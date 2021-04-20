@@ -18,9 +18,10 @@ import AddPaymentScreen from './AddPaymentScreen';
 import InviteScreen from './InviteScreen';
 import WalletScreen from './WalletScreen';
 import CallingScreen from './CallingScreen';
-
+import ChatScreen from './ChatScreen';
 export {
     CallingScreen,
+    ChatScreen,
     HomeScreen,
     OnBoardingScreen,
     OtpScreen,
