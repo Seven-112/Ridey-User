@@ -6,7 +6,9 @@ import * as paymentSelectors from '../Store/Selectors/';
 import STORE from '../Store'
 
 const PaymentScreen = (props) => {
-
+    const requestId = props.route.params.requestId;
+    const tripData = props.route.params.tripData;
+    console.log("requestId inside paymentScreen",requestId)
     const dispatch = useDispatch();
     const getCard = (data) => dispatch(STORE.actions.actionGetCard(data));
     const makeTransaction = (data) => dispatch(STORE.actions.actionMakeTransaction(data));
@@ -28,7 +30,9 @@ const PaymentScreen = (props) => {
         userId,
         user,
         paymentStatus,
-        paymentData
+        paymentData,
+        requestId,
+        tripData
     }
 
     return <Payment {...enhancedProps} />

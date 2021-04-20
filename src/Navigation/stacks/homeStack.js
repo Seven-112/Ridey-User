@@ -15,7 +15,8 @@ import {
     AddPaymentScreen,
     PaymentMessageScreen,
     InviteScreen,
-    WalletScreen
+    WalletScreen,
+    ChatScreen
 } from '../../Screens';
 import RouteNames from '../routeNames';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -35,6 +36,7 @@ const HomeStack = () => {
             <Stack.Screen name={RouteNames.PaymentMessage} component={PaymentMessageScreen} />
             <Stack.Screen name={RouteNames.AddPayment} component={AddPaymentScreen} />
             <Stack.Screen name={RouteNames.Call} component={CallingScreen} />
+            <Stack.Screen name={RouteNames.Chat} component={ChatScreen} />
         </Stack.Navigator>
     )
 }

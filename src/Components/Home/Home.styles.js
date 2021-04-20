@@ -20,12 +20,13 @@ const styles = StyleSheet.create({
 
     },
     buttonContainer:{
-        height:45,
+        height:40,
         backgroundColor:COLORS.SECONDARY_ORANGE,
         justifyContent:"center",
         alignItems:"center",
-        marginTop:10,
-        borderRadius:10
+        marginTop:5,
+        borderRadius:10,
+        marginBottom:10
     },
     buttonText:{
         fontSize:16,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         position: 'absolute',
-        top: '65%',
+        top: '60%',
         right: 0,
         borderRadius:20,
     },

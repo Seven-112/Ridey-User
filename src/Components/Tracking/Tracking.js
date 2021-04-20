@@ -5,17 +5,22 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import Geocoder from "react-native-geocoding";
 import MapViewDirections from "react-native-maps-directions";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  Marker,
+  PROVIDER_GOOGLE,
+  AnimatedRegion,
+} from "react-native-maps";
 import styles from "./Tracking.styles";
 import COLORS from "../../Constants/Theme/Color";
 import kEYS from "../../Constants/appConstants/Global";
 import RouteNames from "../../Navigation/routeNames";
 import person from "../../assets/images/dummyUser.jpg";
 import carImage from "../../assets/images/cars/UberX.jpeg";
+import trackingMarker from "../../assets/images/cars/top-uberx-tracking.png";
 import StarIcon from "../../assets/images/star.png";
 import chatIcon from "../../assets/images/chat.png";
 import callIcon from "../../assets/images/call.png";
@@ -23,7 +28,7 @@ import MapPin from "../../assets/images/mapPin.png";
 import LocationIcon from "../../assets/images/current-location.png";
 import { socket } from "../../Store/store";
 
-const screen = Dimensions.get('window');
+const screen = Dimensions.get("window");
 const AspectRatio = screen.width / screen.height;
 const latitudeDelta = 0.9222;
 const longitudeDelta = latitudeDelta * AspectRatio;
@@ -55,37 +60,44 @@ const Tracking = ({
   tripData,
   user,
 }) => {
-  console.log("tripData", tripData);
-  console.log("request data from tracking", requestData);
-  const destinationAddress = requestData && requestData.destination ? requestData.destination : '';
-  const sourceAddress = requestData && requestData.source ? requestData.source : '';
-  const mapRegion = tripData ? {
-    latitude:tripData.driverLat,
-    longitude:tripData.driverLong,
-    latitudeDelta:1,
-    longitudeDelta:1
-  } :  {
-    latitude:31.470739629384877,
-    longitude:74.35874729999999,
-    latitudeDelta:1,
-    longitudeDelta:1
-};
-  const selectedItem = requestData && requestData.selected ? requestData.selected : {};
+ 
+  const destinationAddress =
+    requestData && requestData.destination ? requestData.destination : "";
+  const sourceAddress =
+    requestData && requestData.source ? requestData.source : "";
+  const mapRegion = tripData
+    ? {
+        latitude: tripData.userLat,
+        longitude: tripData.userLong,
+        latitudeDelta: 0.9222,
+        longitudeDelta: 0.0034,
+      }
+    : {
+        latitude: 31.470739629384877,
+        longitude: 74.35874729999999,
+        latitudeDelta: 0.9222,
+        longitudeDelta: 0.0034,
+      };
+  const selectedItem = tripData && tripData.item ? tripData.item : {};
   const distance = selectedItem.distance ? selectedItem.distance : 0;
   const time = selectedItem.time ? selectedItem.time : 0;
   const fare = tripData ? tripData.fare : 0;
   let mapRef = useRef(null);
+  let trackingRef = useRef(null);
 
   Geocoder.init(kEYS.GEO_CODER_KEY, { language: "en" });
-  31.470739629384877, 74.27279481051957;
   const [sourcelocation, setSourceLocation] = useState({
     latitude: tripData.driverLat || 31.470739629384877,
     longitude: tripData.driverLong || 74.27279481051957,
   });
-  const [liveLocation,setLiveLocation] = useState({
-    latitude: tripData.driverLat || 31.470739629384877,
-    longitude: tripData.userLong || 74.27279481051957,
-  })
+  const [liveLocation, setLiveLocation] = useState({
+    coordinate: new AnimatedRegion({
+      latitude: 31.470739629384877,
+      longitude: 74.27279481051957,
+      latitudeDelta: 0.9222,
+      longitudeDelta: 0.0034,
+    }),
+  });
   const [destinatonlocation, setDestinationLocation] = useState({
     latitude: tripData.userLat || 31.470739629384877,
     longitude: tripData.userLong || 74.27279481051957,
@@ -94,31 +106,74 @@ const Tracking = ({
   const [tripCompleted, setTripCompleted] = useState(false);
   const [region, setRegion] = useState(mapRegion);
   const [loading, setLoading] = useState(true);
-  const [isCompleted,setIsCompleted] =  useState(true);
+  const [isCompleted, setIsCompleted] = useState(true);
 
   useEffect(() => {
     getCurrentTrip(actions, requestData, setLoading);
+    mapRef.current.animateCamera(
+      {
+        center: {
+          latitude: region.latitude,
+          longitude: region.longitude,
+        },
+        zoom: 18,
+      },
+      { duration: 10000 }
+    );
   }, []);
+  const handleLiveLocation = (data) => {
+    //setLiveLocation({ latitude: data.latitude, longitude: data.longitude });
+    var newCoordinate = new AnimatedRegion({
+      latitude: data.latitude,
+      longitude: data.longitude,
+      latitudeDelta: 0.012,
+      longitudeDelta: 0.012,
+    });
 
-  useEffect(()=>{
-    socket.on('locationTracking',(data)=>{
-      setLiveLocation({latitude:data.latitude,longitude:data.longitude})
-    })
-    socket.on('completeTrip',(data)=>{
-      setIsCompleted(false)
-    })
-  })
+    // liveLocation.timing(newCoordinate).start();
+    liveLocation.coordinate
+      .timing({
+        latitude: data.latitude,
+        longitude: data.longitude,
+        useNativeDriver: false,
+        duration: 1000,
+      })
+      .start();
+
+    setLiveLocation({ coordinate: newCoordinate });
+  };
+
+  useEffect(() => {
+    socket.on("locationTracking", (data) => {
+      if (
+        liveLocation.latitude !== data.latitude &&
+        liveLocation.longitude !== data.longitude
+      ) {
+        handleLiveLocation(data);
+      }
+    });
+
+    socket.on("completeTrip", (data) => {
+      setIsCompleted(true);
+      navigation.navigate(RouteNames.Payment, {
+        requestId: requestData.requestId,
+        tripData: tripData,
+      });
+    });
+    return () => {
+      socket.off("locationTracking");
+      socket.off("completeTrip");
+    };
+  });
   return (
     <View style={styles.container}>
       <MapView
         pitchEnabled={true}
         ref={mapRef}
-        showsCompass={true}
         showsUserLocation={true}
         provider={PROVIDER_GOOGLE}
-        followsUserLocation={true}
         style={styles.map}
-        initialRegion={region}
+        region={region}
       >
         <Marker
           coordinate={{
@@ -126,29 +181,30 @@ const Tracking = ({
             longitude: sourcelocation.longitude,
           }}
           title="source Location"
-          icon={LocationIcon}
-        ></Marker>
-         <Marker
-          coordinate={{
-            latitude: liveLocation.latitude,
-            longitude: liveLocation.longitude,
-          }}
+        >
+          <Image source={LocationIcon} style={{ height: 40, width: 40 }} />
+        </Marker>
+        <Marker.Animated
+          ref={trackingRef}
+          coordinate={liveLocation.coordinate}
           title="driver Location"
-          icon={MapPin}
-        ></Marker>
+        >
+          <Image source={trackingMarker} style={{ height: 40, width: 40 }} />
+        </Marker.Animated>
         <Marker
           coordinate={{
             latitude: destinatonlocation.latitude,
             longitude: destinatonlocation.longitude,
           }}
           title="destination Location"
-          icon={MapPin}
-        ></Marker>
+        >
+          <Image source={MapPin} style={{ height: 40, width: 40 }} />
+        </Marker>
         <MapViewDirections
           origin={sourcelocation}
           destination={destinatonlocation}
           apikey={"AIzaSyBTfypSbx_zNMhWSBXMTA2BJBMQO7_9_T8"}
-          strokeWidth={4}
+          strokeWidth={5}
           strokeColor={COLORS.SECONDARY_BLACK}
           precision="high"
           lineCap="butt"
@@ -176,9 +232,16 @@ const Tracking = ({
               </View>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <View style={styles.chatContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(RouteNames.Chat, {
+                    connectedDriver: tripData.driver,
+                  })
+                }
+                style={styles.chatContainer}
+              >
                 <Image style={styles.icons} source={chatIcon} />
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate(RouteNames.Call)}
                 style={styles.callContainer}
@@ -231,10 +294,22 @@ const Tracking = ({
             </View>
           </View>
           <TouchableOpacity
-          disabled={isCompleted}
+            disabled={!isCompleted}
             // onPress={() => navigation.pop(3)}
-            onPress={() => navigation.navigate(RouteNames.Payment)}
-            style={styles.buttonContainer}
+            onPress={() =>
+              navigation.navigate(RouteNames.Payment, {
+                requestId: requestData.requestId,
+                tripData: tripData,
+              })
+            }
+            style={
+              isCompleted
+                ? styles.buttonContainer
+                : {
+                    ...styles.buttonContainer,
+                    backgroundColor: COLORS.DISABLED_BUTTON_GREY,
+                  }
+            }
           >
             <Text style={{ fontSize: 18 }}>Complete Trip</Text>
           </TouchableOpacity>

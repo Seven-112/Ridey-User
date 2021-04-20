@@ -62,6 +62,7 @@ const Home = ({ navigation }) => {
                 minZoomLevel={16}
                 maxZoomLevel={20}
                 followsUserLocation={true}
+                showsUserLocation={true}
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
                 initialRegion={{
@@ -80,7 +81,7 @@ const Home = ({ navigation }) => {
                     }}
                     title="Current Location"
                     tracksViewChanges={false}
-                    icon={MapPin}
+                    // icon={MapPin}
                 >
                 </Marker>
             </MapView>
@@ -88,7 +89,7 @@ const Home = ({ navigation }) => {
                 <Image resizeMode="contain" source={MenuIcon} style={styles.menu} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => mapRef.animateCamera({ center: region })} style={styles.currentLocation}>
-                <Image style={{ height: 25, width: 25, backgroundColor: 'white', padding: 10 }} source={CurrentLocation} />
+                <Image style={{ height: 25, width: 25, backgroundColor: 'white', padding: 10, }} source={CurrentLocation} />
             </TouchableOpacity>
             <View style={styles.bottomView} >
                 <View style={styles.topbar} />
@@ -109,11 +110,14 @@ const Home = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate(routeNames.Request, {
+                    <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                        navigation.navigate(routeNames.Request, {
                         sourceCoords: sourceCoords,
                         destinationCoords: destinationCoords,
                         address: locationData
-                    })} >
+                    })
+                    setLocationData({ pickup: 'Pick Up Location', destination: 'Drop Off Location' })
+                    }} >
                         <Text style={styles.buttonText}>CONFIRM</Text>
                     </TouchableOpacity>
                 </View>

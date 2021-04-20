@@ -18,7 +18,8 @@ export default {
     Invite:'Invite',
     Wallet:'Wallet',
     PaymentMessage:'PaymentMessage',
-    Call:'Call'
+    Call:'Call',
+    Chat:'Chat'
 }
 
 

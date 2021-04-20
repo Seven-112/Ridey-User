@@ -92,7 +92,7 @@ const Wallet = ({ actions, user, userId, navigation, transactionData }) => {
                             {transactionData ?
                                 transactionData.map((item, index) => <WalletItem key={index} item={item} />)
                                 :
-                                null
+                                <Text style={{alignSelf:'center'}}>No Transactions</Text>
                             }
                         </View>
                     </ScrollView>

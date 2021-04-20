@@ -70,13 +70,12 @@ const handleCardPress = async (item, actions, user, tripId, setLoading, navigati
 }
 
 
-const Payment = ({ navigation, requestData, tripData, paymentData, paymentStatus, actions, userId, user }) => {
+const Payment = ({ navigation, requestData, tripData, paymentData, paymentStatus, actions, userId, user,requestId }) => {
     let data = [];
     let tripId = ''
     console.log(tripData)
     data = paymentData ? paymentData[0].payments : [];
-    tripId = tripData ? tripData.tripId : '';
-    console.log(actions)
+    tripId = tripData ? requestId : '';
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         handleGetUserCards(actions, userId, setLoading)
@@ -94,7 +93,7 @@ const Payment = ({ navigation, requestData, tripData, paymentData, paymentStatus
                         <View style={styles.imageContainer}>
                             <Image style={styles.imageIcon} source={dollarIcon} />
                         </View>
-                        <TouchableOpacity onPress={() => navigation.navigate(routeNames.PaymentMessage, { requestData: requestData, tripData: tripData })} style={styles.textContainer}>
+                        <TouchableOpacity onPress={() => navigation.navigate(routeNames.PaymentMessage, { requestId: requestId, tripData: tripData })} style={styles.textContainer}>
                             <Text style={styles.cashHeaderText}>Cash</Text>
                             <Text style={styles.cashHeaderDetails}>Default Payment Method</Text>
                         </TouchableOpacity>
